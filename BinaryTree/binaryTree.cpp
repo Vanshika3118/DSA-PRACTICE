@@ -1,4 +1,5 @@
 //create a binary tree and print using level order , inorder , preorder and postorder traversal with recursion
+//how to build tree from level order
 #include <iostream>
 #include <queue>
 using namespace std;
@@ -93,10 +94,47 @@ void postOrder(Node *root)
   postOrder(root->right);
   cout << root->data << " ";
 }
+
+void* buildTreeFromLevelOrder(Node*& root)
+{
+  queue<Node*>q;
+  cout << "Enter the data: " << endl;
+  int data;
+  cin >> data;
+  root=new Node(data);
+  q.push(root);
+
+  while(!q.empty())
+  {
+    Node* temp=q.front();
+    q.pop();
+
+    cout<<"Enter the left child of "<<temp->data<<endl;
+    int leftData;
+    cin>>leftData;
+
+    if(leftData!=-1)
+    {
+      temp->left=new Node(leftData);
+      q.push(temp->left);
+    }
+
+    cout<<"Enter the right child of "<<temp->data<<endl;
+    int rightData;
+    cin>>rightData;
+
+    if(rightData!=-1)
+    {
+      temp->right=new Node(rightData);
+      q.push(temp->right);
+    }
+  }
+}
+
 int main()
 {
-  Node *root = NULL;
-
+  Node*root = NULL;
+/*
   // creating a tree
   root = buildTree(root);
   // 1 3 7 -1 -1 11 -1 -1 5 17 -1 -1 -1
@@ -115,4 +153,10 @@ int main()
   cout << "Postorder traversal of the tree is: " << endl;
   postOrder(root);
   cout << endl;
+
+  */
+
+  buildTreeFromLevelOrder(root);
+  // 1 3 5 7 11 17 -1 -1 -1 -1 -1 -1 -1
+  levelOrderTraversal(root);
 }
