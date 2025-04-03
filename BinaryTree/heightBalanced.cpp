@@ -36,27 +36,63 @@ void createBinaryTree(Node*& root)
   createBinaryTree(root->right);
 }
 
-int height(Node* root)
+// int height(Node* root)
+//   {
+//       if(root==NULL)
+//       return 0;
+      
+//       int left=height(root->left);
+//       int right=height(root->right);
+      
+//       return max(left,right)+1;
+//   }
+//     bool isBalanced(Node* root) {
+//         // Code here
+//         if(root==NULL)
+//         return true;
+//         int leftHeight=height(root->left);
+//         int rightHeight=height(root->right);
+        
+//         if(abs(leftHeight-rightHeight)<=1 && isBalanced(root->left) && isBalanced(root->right))
+//         return true;
+        
+//         return false;
+//     }
+
+//reduce complexity to O(n) by using pair
+
+    pair<bool,int>isBalancedFast(Node* root)
   {
       if(root==NULL)
-      return 0;
+      {
+          pair<bool,int>p=make_pair(true,0);
+          return p;
+      }
+      pair<bool,int>left=isBalancedFast(root->left);
+      pair<bool,int>right=isBalancedFast(root->right);
       
-      int left=height(root->left);
-      int right=height(root->right);
       
-      return max(left,right)+1;
+        bool leftAns=left.first;
+        bool rightAns=right.first;
+        
+        bool diff=abs(left.second-right.second)<=1;
+        
+        pair<bool,int>ans;
+        ans.second=max(left.second,right.second)+1;
+        
+        if(leftAns && rightAns && diff)
+        {
+            ans.first=true;
+        }
+        else
+            ans.first=false;
+            
+            return ans;
   }
+  
     bool isBalanced(Node* root) {
         // Code here
-        if(root==NULL)
-        return true;
-        int leftHeight=height(root->left);
-        int rightHeight=height(root->right);
-        
-        if(abs(leftHeight-rightHeight)<=1 && isBalanced(root->left) && isBalanced(root->right))
-        return true;
-        
-        return false;
+        return isBalancedFast(root).first;
     }
 
 
